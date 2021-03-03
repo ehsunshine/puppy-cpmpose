@@ -13,23 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge.ui.theme
+package com.example.androiddevchallenge.domain.repository
 
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Shapes
-import androidx.compose.ui.unit.dp
+import org.koin.dsl.module
 
-fun shapes(startRound: Boolean = false) =
-    if (startRound) {
-        Shapes(
-            small = RoundedCornerShape(topStart = 16.dp),
-            medium = RoundedCornerShape(topStart = 32.dp),
-            large = RoundedCornerShape(8.dp)
-        )
-    } else {
-        Shapes(
-            small = RoundedCornerShape(topEnd = 16.dp),
-            medium = RoundedCornerShape(topEnd = 32.dp),
-            large = RoundedCornerShape(8.dp)
+val repositoryModule = module {
+    single<PetRepository> {
+        PetRepositoryImpl(
+            get()
         )
     }
+}

@@ -17,45 +17,63 @@ package com.example.androiddevchallenge
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.Crossfade
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import com.example.androiddevchallenge.domain.repository.PetRepository
+import com.example.androiddevchallenge.ui.NavigationViewModel
+import com.example.androiddevchallenge.ui.Screen
+import com.example.androiddevchallenge.ui.detail.PetDetailScreen
+import com.example.androiddevchallenge.ui.home.HomeScreen
 import com.example.androiddevchallenge.ui.theme.MyTheme
+import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
+    private val navigationViewModel by viewModels<NavigationViewModel>()
+    private val petRepository by inject<PetRepository>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             MyTheme {
-                MyApp()
+                AppContent(
+                    navigationViewModel = navigationViewModel,
+                    petRepository = petRepository
+                )
             }
+        }
+    }
+
+    override fun onBackPressed() {
+        if (!navigationViewModel.onBack()) {
+            super.onBackPressed()
         }
     }
 }
 
-// Start building your app here!
 @Composable
-fun MyApp() {
-    Surface(color = MaterialTheme.colors.background) {
-        Text(text = "Ready... Set... GO!")
-    }
-}
+private fun AppContent(
+    navigationViewModel: NavigationViewModel,
+    petRepository: PetRepository,
+) {
+    Crossfade(navigationViewModel.currentScreen) {
+        Surface(color = MaterialTheme.colors.background) {
+            when (val screen = navigationViewModel.currentScreen) {
+                is Screen.Home -> HomeScreen(
+                    navigateTo = {
+                        navigationViewModel.navigateTo(it)
+                    },
+                    petsRepository = petRepository
+                )
 
-@Preview("Light Theme", widthDp = 360, heightDp = 640)
-@Composable
-fun LightPreview() {
-    MyTheme {
-        MyApp()
-    }
-}
-
-@Preview("Dark Theme", widthDp = 360, heightDp = 640)
-@Composable
-fun DarkPreview() {
-    MyTheme(darkTheme = true) {
-        MyApp()
+                is Screen.PetDetails -> PetDetailScreen(
+                    petId = screen.petId,
+                    onBack = { navigationViewModel.onBack() },
+                    petsRepository = petRepository
+                )
+            }
+        }
     }
 }

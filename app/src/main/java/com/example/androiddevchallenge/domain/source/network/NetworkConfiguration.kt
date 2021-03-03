@@ -13,13 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.androiddevchallenge.ui.theme
+package com.example.androiddevchallenge.domain.source.network
 
-import androidx.compose.ui.graphics.Color
-
-val indigo200 = Color(0xFF9FA8DA)
-val indigo500 = Color(0xFF3F51B5)
-val indigo700 = Color(0xFF303F9F)
-val red500 = Color(0xFFF44336)
-val grey900 = Color(0xFF212121)
-val grey100 = Color(0xFFF5F5F5)
+object NetworkConfiguration {
+    const val DOG_API_BASE_URL = "https://api.TheDogAPI.com/"
+    const val API_KEY = "e834ea24-1003-47fb-954b-7b7e556bdc82"
+}
