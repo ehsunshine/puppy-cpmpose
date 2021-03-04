@@ -61,7 +61,7 @@ fun PetDetailScreen(
     petsRepository: PetRepository,
     onBack: () -> Unit,
 ) {
-    val pet = produceUiState(petsRepository, petId) {
+    val pet = produceUiState(petsRepository) {
         getPet(petId)
     }
     val petData = pet.value.data ?: return
