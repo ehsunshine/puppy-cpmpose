@@ -58,9 +58,9 @@ private fun AppContent(
     navigationViewModel: NavigationViewModel,
     petRepository: PetRepository,
 ) {
-    Crossfade(navigationViewModel.currentScreen) {
+    Crossfade(navigationViewModel.currentScreen) { screen ->
         Surface(color = MaterialTheme.colors.background) {
-            when (val screen = navigationViewModel.currentScreen) {
+            when (screen) {
                 is Screen.Home -> HomeScreen(
                     navigateTo = {
                         navigationViewModel.navigateTo(it)

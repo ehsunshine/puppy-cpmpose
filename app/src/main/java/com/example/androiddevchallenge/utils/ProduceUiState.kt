@@ -20,9 +20,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.produceState
 import com.example.androiddevchallenge.ui.state.UiState
 import com.example.androiddevchallenge.ui.state.copyWithResult
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@OptIn(ExperimentalCoroutinesApi::class)
 @Composable
 fun <Producer, T> produceUiState(
     producer: Producer,
